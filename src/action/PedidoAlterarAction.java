@@ -55,7 +55,7 @@ public class PedidoAlterarAction  implements Action{
                 response.sendRedirect("PedidosAlterar.jsp");
                 e.printStackTrace();
             } catch (ClassNotFoundException ex) {
-                  Logger.getLogger(PedidoGravarAction.class.getName()).log(Level.SEVERE, null, ex);
+                  Logger.getLogger(PedidoCadastrarAction.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

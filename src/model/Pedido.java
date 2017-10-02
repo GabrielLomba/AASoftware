@@ -8,11 +8,10 @@ package model;
 import java.util.Date;
 
 /**
- *
  * @author fernanda
  */
 public class Pedido {
-    
+
     private int codigo;
     private String cliente;
     private String aparelho;
@@ -32,7 +31,7 @@ public class Pedido {
         this.aparelho = aparelho;
         this.dataRecebido = dataRecebido;
     }
-    
+
     public Pedido(int codigo, String cliente, String aparelho) {
         this.codigo = codigo;
         this.cliente = cliente;
@@ -46,7 +45,7 @@ public class Pedido {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    
+
     public String getCliente() {
         return cliente;
     }
@@ -70,5 +69,5 @@ public class Pedido {
     public void setDataRecebido(Date dataRecebido) {
         this.dataRecebido = dataRecebido;
     }
-    
+
 }

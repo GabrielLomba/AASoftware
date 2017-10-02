@@ -6,16 +6,19 @@
 package model;
 
 /**
- *
  * @author fernanda
  */
 public interface StatusPedido {
-    
+
     void avaliar(Pedido pedido);
+
     void realizarManutencao(Pedido pedido);
+
     void aguardarPeca(Pedido pedido);
+
     void cancelar(Pedido pedido);
+
     void informarSemConserto(Pedido pedido);
+
     void informarConserto(Pedido pedido);
-    
 }
