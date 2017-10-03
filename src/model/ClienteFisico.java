@@ -2,8 +2,12 @@ package model;
 
 public class ClienteFisico extends Cliente {
 
-    public ClienteFisico(int codigo, String nome, String email) {
-        super(codigo, nome, email);
+    public ClienteFisico(int codigo, String nome) {
+        super(codigo, nome);
+    }
+
+    public ClienteFisico(String nome) {
+        super(nome);
     }
 
     @Override

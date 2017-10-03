@@ -1,15 +1,23 @@
 package model;
 
-public abstract class Cliente {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
+public abstract class Cliente implements Observer {
+
+    private List<String> mensagens = new ArrayList<>();
     private int codigo;
     private String nome;
-    private String email;
 
-    public Cliente(int codigo, String nome, String email) {
+    public Cliente(int codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
-        this.email = email;
+    }
+
+    public Cliente(String nome){
+        this.nome = nome;
     }
 
     public String mostrarInformacoes() {
@@ -22,23 +30,22 @@ public abstract class Cliente {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public List<String> getMensagens() {
+        List<String> mensagensCopy = new ArrayList<>(mensagens);
+        mensagensCopy.clear();
+        return mensagensCopy;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public void update(Observable observable, Object o) {
+        if (observable instanceof Pedido) {
+            Pedido pedido = (Pedido) observable;
+            mensagens.add("Cliente " + nome + ", seu pedido de conserto do aparelho " + pedido.getAparelho() +
+                    " foi atualizado!. Novo status: " + pedido.getStatus());
+        }
     }
 }

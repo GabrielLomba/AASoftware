@@ -12,7 +12,7 @@
 <h3><b>Data de
     recebimento&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;&nbsp;&nbsp;&nbsp;Aparelho&nbsp;&nbsp;&nbsp;&nbsp;Status</b></h3>
 <c:forEach var="pedido" items="${bean.pedidos}">
-    <h4>${pedido.dataRecebido}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.cliente}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.aparelho}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.status}</h4>
+    <h4>${pedido.dataRecebido}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.cliente.mostrarInformacoes()}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.aparelho}&nbsp;&nbsp;&nbsp;&nbsp;${pedido.status}</h4>
 
     <form action="PedidoAlterarStatus.jsp" method="post">
         <input type="hidden" name="pedidoId" id="pedidoId" value="${pedido.id}"/>

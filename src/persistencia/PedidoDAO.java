@@ -5,14 +5,13 @@
  */
 package persistencia;
 
-import model.Pedido;
-import model.StatusFactory;
-import model.StatusPedido;
+import model.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +30,19 @@ public class PedidoDAO {
         return instance;
     }
 
-    public void save(Pedido pedido) throws ClassNotFoundException, SQLException {
+    public void save(int tipoCliente, Pedido pedido) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         Statement st = null;
 
         try {
             conn = DatabaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            st.execute("insert into pedidos (cliente, aparelho) values ('" + pedido.getCliente() + "', '" + pedido.getAparelho() + "')");
+            String dataStr = new SimpleDateFormat("yyyy-MM-dd").format(pedido.getDataRecebido());
+            String queryCliente = "INSERT INTO cliente(nome, tipo) VALUES('" + pedido.getCliente().getNome()
+                    + "', " + tipoCliente + ");";
+            String queryPedido = "INSERT INTO pedido (cliente, aparelho, dataRecebido, status) VALUES (LAST_INSERT_ID(), '" +
+                    pedido.getAparelho() + "', '" + dataStr + "', " + StatusFactory.RECEBIDO + ");";
+            st.execute(queryCliente + queryPedido);
         } finally {
             closeResources(conn, st);
         }
@@ -50,7 +54,8 @@ public class PedidoDAO {
         Statement st = null;
 
         try {
-            String query = "select * from pedido where codigo = '" + codigo + "'";
+            String query = "SELECT pedido.*,cliente.* FROM INNER JOIN cliente ON pedido.cliente = cliente.id" +
+                    " WHERE pedido.id = " + codigo;
 
             conn = DatabaseLocator.getInstance().getConnection();
             st = conn.createStatement();
@@ -58,7 +63,8 @@ public class PedidoDAO {
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
                 StatusPedido statusPedido = StatusFactory.getStatusPedido(rs.getInt("status"));
-                pedido = new Pedido(rs.getInt("codigo"), rs.getString("cliente"), rs.getString("aparelho"),
+                Cliente cliente = ClienteFactory.getCliente(rs);
+                pedido = new Pedido(rs.getInt("codigo"), cliente, rs.getString("aparelho"),
                         rs.getDate("data"), statusPedido);
             }
         } finally {
@@ -87,23 +93,6 @@ public class PedidoDAO {
 
     }
 
-    public void delete(String codigo) throws ClassNotFoundException, SQLException {
-        Connection conn = null;
-        Statement st = null;
-
-        try {
-            String query = "DELETE FROM produto where codigo = '" + codigo + "'";
-
-            conn = DatabaseLocator.getInstance().getConnection();
-            st = conn.createStatement();
-            st.execute(query);
-
-        } finally {
-            closeResources(conn, st);
-        }
-
-    }
-
     private void closeResources(Connection conn, Statement st) throws SQLException {
         if (st != null) st.close();
         if (conn != null) conn.close();
@@ -115,7 +104,7 @@ public class PedidoDAO {
         Statement st = null;
 
         try {
-            String query = "select * from pedido";
+            String query = "SELECT pedido.*,cliente.* FROM pedido INNER JOIN cliente ON pedido.cliente = cliente.id";
 
             conn = DatabaseLocator.getInstance().getConnection();
             st = conn.createStatement();
@@ -123,8 +112,9 @@ public class PedidoDAO {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 StatusPedido statusPedido = StatusFactory.getStatusPedido(rs.getInt("status"));
-                pedidos.add(new Pedido(rs.getInt("id"), rs.getString("cliente"),
-                        rs.getString("aparelho"), rs.getDate("dataRecebido"), statusPedido));
+                Cliente cliente = ClienteFactory.getCliente(rs);
+                pedidos.add(new Pedido(rs.getInt("id"), cliente, rs.getString("aparelho"),
+                        rs.getDate("dataRecebido"), statusPedido));
             }
         } finally {
             closeResources(conn, st);

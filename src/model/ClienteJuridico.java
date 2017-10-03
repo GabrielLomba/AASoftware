@@ -1,9 +1,13 @@
 package model;
 
-public class ClienteJuridico extends Cliente{
+public class ClienteJuridico extends Cliente {
 
-    public ClienteJuridico(int codigo, String nome, String email) {
-        super(codigo, nome, email);
+    public ClienteJuridico(int codigo, String nome) {
+        super(codigo, nome);
+    }
+
+    public ClienteJuridico(String nome) {
+        super(nome);
     }
 
     @Override

@@ -6,26 +6,24 @@
 package model;
 
 import java.util.Date;
+import java.util.Observable;
 
-/**
- * @author fernanda
- */
-public class Pedido {
+public class Pedido extends Observable {
 
     private int id;
-    private String cliente;
+    private Cliente cliente;
     private String aparelho;
     private Date dataRecebido;
     private StatusPedido status;
 
-    public Pedido(String cliente, String aparelho) {
+    public Pedido(Cliente cliente, String aparelho) {
         this.cliente = cliente;
         this.aparelho = aparelho;
         this.dataRecebido = new Date();
         this.status = new StatusRecebido();
     }
 
-    public Pedido(int id, String cliente, String aparelho, Date dataRecebido, StatusPedido status) {
+    public Pedido(int id, Cliente cliente, String aparelho, Date dataRecebido, StatusPedido status) {
         this.id = id;
         this.cliente = cliente;
         this.aparelho = aparelho;
@@ -37,32 +35,16 @@ public class Pedido {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
     }
 
     public String getAparelho() {
         return aparelho;
     }
 
-    public void setAparelho(String aparelho) {
-        this.aparelho = aparelho;
-    }
-
     public Date getDataRecebido() {
         return dataRecebido;
-    }
-
-    public void setDataRecebido(Date dataRecebido) {
-        this.dataRecebido = dataRecebido;
     }
 
     public String getStatus() {
@@ -91,13 +73,19 @@ public class Pedido {
 
     public void cancelar() throws InvalidStateChangeException {
         status.cancelar(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void informarConserto() throws InvalidStateChangeException {
         status.informarConserto(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void informarSemConserto() throws InvalidStateChangeException {
         status.informarSemConserto(this);
+        setChanged();
+        notifyObservers();
     }
 }

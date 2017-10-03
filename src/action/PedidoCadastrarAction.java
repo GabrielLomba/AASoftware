@@ -6,6 +6,8 @@
 package action;
 
 import controller.Action;
+import model.Cliente;
+import model.ClienteFactory;
 import model.Pedido;
 import persistencia.PedidoDAO;
 
@@ -23,18 +25,20 @@ public class PedidoCadastrarAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String cliente = request.getParameter("textCliente");
+        String nomeCliente = request.getParameter("nomeCliente");
         String aparelho = request.getParameter("textAparelho");
+        int tipoCliente = Integer.parseInt(request.getParameter("tipoCliente"));
 
-        if (cliente.equals("") || aparelho.equals("")) {
+        if (nomeCliente.equals("") || aparelho.equals("")) {
             response.sendRedirect("PedidoCadastrar.jsp");
         } else {
             try {
+                Cliente cliente = ClienteFactory.createCliente(tipoCliente, nomeCliente);
                 Pedido pedido = new Pedido(cliente, aparelho);
-                PedidoDAO.getInstance().save(pedido);
+                PedidoDAO.getInstance().save(tipoCliente, pedido);
                 request.setAttribute("resultado", "Pedido cadastrado com sucesso!");
             } catch (SQLException | ClassNotFoundException ex) {
-                request.setAttribute("resultado", "Pedido cadastrado com sucesso!");
+                request.setAttribute("resultado", "Houve um erro no cadastro do pedido!");
                 ex.printStackTrace();
             }
 
