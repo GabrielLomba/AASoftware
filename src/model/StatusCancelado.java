@@ -6,39 +6,47 @@
 package model;
 
 /**
- *
  * @author fernanda
  */
 public class StatusCancelado implements StatusPedido {
 
     @Override
-    public void avaliar(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void receber(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Recebido\' é inválida!");
     }
 
     @Override
-    public void realizarManutencao(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void avaliar(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Em avaliação\' é inválida!");
     }
 
     @Override
-    public void aguardarPeca(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void realizarManutencao(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Em manutenção\' é inválida!");
     }
 
     @Override
-    public void cancelar(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void aguardarPeca(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Aguardando peça\' é inválida!");
     }
 
     @Override
-    public void informarSemConserto(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void cancelar(Pedido pedido) throws InvalidStateChangeException {
+
     }
 
     @Override
-    public void informarConserto(Pedido pedido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void informarSemConserto(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Sem Conserto\' é inválida!");
     }
-    
+
+    @Override
+    public void informarConserto(Pedido pedido) throws InvalidStateChangeException {
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Consertado\' é inválida!");
+    }
+
+    @Override
+    public String retornarStatus() {
+        return "Cancelado";
+    }
 }

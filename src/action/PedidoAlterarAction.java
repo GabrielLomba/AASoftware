@@ -38,7 +38,7 @@ public class PedidoAlterarAction  implements Action{
                 request.setAttribute("aparelho", aparelho);
 
             
-                RequestDispatcher view = request.getRequestDispatcher("PedidoAlterar.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("PedidoAlterarStatus.jsp");
             
                 view.forward(request, response);
             } catch (ServletException ex) {
@@ -47,7 +47,7 @@ public class PedidoAlterarAction  implements Action{
         }
         else{
             try{
-                Pedido pedido = new Pedido(Integer.parseInt(codigo), nome, aparelho);
+                Pedido pedido = new Pedido(nome, aparelho);
                 PedidoDAO.getInstance().alter(pedido);
             
                 response.sendRedirect("PedidosAlterar.jsp");

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Pedido {
 
-    private int codigo;
+    private int id;
     private String cliente;
     private String aparelho;
     private Date dataRecebido;
@@ -25,25 +25,20 @@ public class Pedido {
         this.status = new StatusRecebido();
     }
 
-    public Pedido(int codigo, String cliente, String aparelho, Date dataRecebido) {
-        this.codigo = codigo;
+    public Pedido(int id, String cliente, String aparelho, Date dataRecebido, StatusPedido status) {
+        this.id = id;
         this.cliente = cliente;
         this.aparelho = aparelho;
         this.dataRecebido = dataRecebido;
+        this.status = status;
     }
 
-    public Pedido(int codigo, String cliente, String aparelho) {
-        this.codigo = codigo;
-        this.cliente = cliente;
-        this.aparelho = aparelho;
+    public int getId() {
+        return id;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCliente() {
@@ -70,4 +65,39 @@ public class Pedido {
         this.dataRecebido = dataRecebido;
     }
 
+    public String getStatus() {
+        return status.retornarStatus();
+    }
+
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
+
+    public void receber() throws InvalidStateChangeException {
+        status.receber(this);
+    }
+
+    public void avaliar() throws InvalidStateChangeException {
+        status.avaliar(this);
+    }
+
+    public void realizarManutencao() throws InvalidStateChangeException {
+        status.realizarManutencao(this);
+    }
+
+    public void aguardarPeca() throws InvalidStateChangeException {
+        status.aguardarPeca(this);
+    }
+
+    public void cancelar() throws InvalidStateChangeException {
+        status.cancelar(this);
+    }
+
+    public void informarConserto() throws InvalidStateChangeException {
+        status.informarConserto(this);
+    }
+
+    public void informarSemConserto() throws InvalidStateChangeException {
+        status.informarSemConserto(this);
+    }
 }

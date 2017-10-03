@@ -32,9 +32,9 @@ public class PedidoCadastrarAction implements Action {
             try {
                 Pedido pedido = new Pedido(cliente, aparelho);
                 PedidoDAO.getInstance().save(pedido);
-                request.setAttribute("resultado", "Pedido gravado com sucesso!");
+                request.setAttribute("resultado", "Pedido cadastrado com sucesso!");
             } catch (SQLException | ClassNotFoundException ex) {
-                request.setAttribute("resultado", "Pedido gravado com sucesso!");
+                request.setAttribute("resultado", "Pedido cadastrado com sucesso!");
                 ex.printStackTrace();
             }
 

@@ -10,15 +10,19 @@ package model;
  */
 public interface StatusPedido {
 
-    void avaliar(Pedido pedido);
+    void receber(Pedido pedido) throws InvalidStateChangeException;
 
-    void realizarManutencao(Pedido pedido);
+    void avaliar(Pedido pedido) throws InvalidStateChangeException;
 
-    void aguardarPeca(Pedido pedido);
+    void realizarManutencao(Pedido pedido) throws InvalidStateChangeException;
 
-    void cancelar(Pedido pedido);
+    void aguardarPeca(Pedido pedido) throws InvalidStateChangeException;
 
-    void informarSemConserto(Pedido pedido);
+    void cancelar(Pedido pedido) throws InvalidStateChangeException;
 
-    void informarConserto(Pedido pedido);
+    void informarSemConserto(Pedido pedido) throws InvalidStateChangeException;
+
+    void informarConserto(Pedido pedido) throws InvalidStateChangeException;
+
+    String retornarStatus();
 }

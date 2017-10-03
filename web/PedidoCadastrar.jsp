@@ -21,6 +21,8 @@
             <input type="text" name="textAparelho"/><br/>  
             <input type="submit"/>
         </form>
+
+        ${resultado}
     </body>
 </html>
 
