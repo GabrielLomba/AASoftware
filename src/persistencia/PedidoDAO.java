@@ -54,7 +54,7 @@ public class PedidoDAO {
         Statement st = null;
 
         try {
-            String query = "SELECT pedido.*,cliente.* FROM INNER JOIN cliente ON pedido.cliente = cliente.id" +
+            String query = "SELECT pedido.*,cliente.* FROM pedido INNER JOIN cliente ON pedido.cliente = cliente.id" +
                     " WHERE pedido.id = " + codigo;
 
             conn = DatabaseLocator.getInstance().getConnection();
@@ -64,8 +64,8 @@ public class PedidoDAO {
             if (rs.next()) {
                 StatusPedido statusPedido = StatusFactory.getStatusPedido(rs.getInt("status"));
                 Cliente cliente = ClienteFactory.getCliente(rs);
-                pedido = new Pedido(rs.getInt("codigo"), cliente, rs.getString("aparelho"),
-                        rs.getDate("data"), statusPedido);
+                pedido = new Pedido(rs.getInt("id"), cliente, rs.getString("aparelho"),
+                        rs.getDate("dataRecebido"), statusPedido);
             }
         } finally {
             closeResources(conn, st);
@@ -79,14 +79,17 @@ public class PedidoDAO {
         Statement st = null;
 
         try {
-            String query = "UPDATE pedido SET cliente ='" + pedido.getCliente() + "' , "
-                    + "     aparelho='" + pedido.getAparelho() + "' , "
-                    + "     where codigo = '" + pedido.getId() + "'";
+            String statusQuery = "SELECT * FROM statusPedido WHERE nome = '" + pedido.getStatus() + "'";
 
             conn = DatabaseLocator.getInstance().getConnection();
             st = conn.createStatement();
-            st.execute(query);
+            st.executeQuery(statusQuery);
+            ResultSet rs = st.getResultSet();
+            rs.next();
+            int statusId = rs.getInt("id");
 
+            String updatePedidoQuery = "UPDATE pedido SET status =" + statusId + " WHERE id = " + pedido.getId();
+            st.execute(updatePedidoQuery);
         } finally {
             closeResources(conn, st);
         }

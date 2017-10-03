@@ -5,10 +5,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <title>Produtos</title>
 </head>
 <body>
 <h1>Produtos</h1>
+
+${mensagens}
+
 <h3><b>Data de
     recebimento&nbsp;&nbsp;&nbsp;&nbsp;Cliente&nbsp;&nbsp;&nbsp;&nbsp;Aparelho&nbsp;&nbsp;&nbsp;&nbsp;Status</b></h3>
 <c:forEach var="pedido" items="${bean.pedidos}">

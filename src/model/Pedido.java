@@ -21,6 +21,7 @@ public class Pedido extends Observable {
         this.aparelho = aparelho;
         this.dataRecebido = new Date();
         this.status = new StatusRecebido();
+        addObserver(cliente);
     }
 
     public Pedido(int id, Cliente cliente, String aparelho, Date dataRecebido, StatusPedido status) {
@@ -29,6 +30,7 @@ public class Pedido extends Observable {
         this.aparelho = aparelho;
         this.dataRecebido = dataRecebido;
         this.status = status;
+        addObserver(cliente);
     }
 
     public int getId() {
@@ -57,18 +59,26 @@ public class Pedido extends Observable {
 
     public void receber() throws InvalidStateChangeException {
         status.receber(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void avaliar() throws InvalidStateChangeException {
         status.avaliar(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void realizarManutencao() throws InvalidStateChangeException {
         status.realizarManutencao(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void aguardarPeca() throws InvalidStateChangeException {
         status.aguardarPeca(this);
+        setChanged();
+        notifyObservers();
     }
 
     public void cancelar() throws InvalidStateChangeException {

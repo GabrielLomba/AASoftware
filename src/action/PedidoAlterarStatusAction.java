@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author fernanda
@@ -25,9 +26,11 @@ public class PedidoAlterarStatusAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int statusId = Integer.parseInt(request.getParameter("textStatusId"));
-        String pedidoId = request.getParameter("textPedidoId");
+        int statusId = Integer.parseInt(request.getParameter("statusId"));
+        String statusPedido = request.getParameter("statusPedido").replaceAll(" ", "%20");
+        String pedidoId = request.getParameter("pedidoId");
 
+        RequestDispatcher rd;
         try {
             Pedido pedido = PedidoDAO.getInstance().search(pedidoId);
             switch (statusId) {
@@ -55,15 +58,23 @@ public class PedidoAlterarStatusAction implements Action {
                 default:
                     throw new IllegalArgumentException("Status id inválido: " + statusId);
             }
-            request.setAttribute("resultado", "Status do pedido alterado com sucesso!");
+            PedidoDAO.getInstance().alter(pedido);
+            List<String> mensagens = pedido.getCliente().getMensagens();
+            if(!mensagens.isEmpty()){
+                request.setAttribute("mensagens", mensagens);
+            }
+            rd = request.getRequestDispatcher("PedidoMostrar.jsp");
         } catch (SQLException | ClassNotFoundException ex) {
             request.setAttribute("resultado", "Houve um erro ao alterar o status do pedido!");
+            rd = request.getRequestDispatcher("PedidoAlterarStatus.jsp?statusPedido="
+                    + statusPedido + "&pedidoId=" + pedidoId);
             ex.printStackTrace();
         } catch (InvalidStateChangeException ex) {
             request.setAttribute("resultado", ex.getMessage());
+            rd = request.getRequestDispatcher("PedidoAlterarStatus.jsp?statusPedido="
+                    + statusPedido + "&pedidoId=" + pedidoId);
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("PedidoCadastrar.jsp");
         rd.forward(request, response);
     }
 

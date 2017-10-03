@@ -35,8 +35,9 @@ public abstract class Cliente implements Observer {
     }
 
     public List<String> getMensagens() {
-        List<String> mensagensCopy = new ArrayList<>(mensagens);
-        mensagensCopy.clear();
+        List<String> mensagensCopy = new ArrayList<>();
+        mensagensCopy.addAll(mensagens);
+        mensagens.clear();
         return mensagensCopy;
     }
 
