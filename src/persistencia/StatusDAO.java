@@ -5,8 +5,8 @@
  */
 package persistencia;
 
-import model.StatusFactory;
-import model.StatusPedido;
+import model.pedido.StatusFactory;
+import model.pedido.StatusPedido;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

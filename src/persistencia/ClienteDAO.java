@@ -5,8 +5,8 @@
  */
 package persistencia;
 
-import model.Cliente;
-import model.ClienteFactory;
+import model.cliente.Cliente;
+import model.cliente.ClienteFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -5,7 +5,9 @@
  */
 package persistencia;
 
-import model.*;
+import model.cliente.Cliente;
+import model.cliente.ClienteFactory;
+import model.pedido.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -30,7 +32,7 @@ public class PedidoDAO {
         return instance;
     }
 
-    public void save(int tipoCliente, Pedido pedido) throws ClassNotFoundException, SQLException {
+    public void save(Pedido pedido, int tipoCliente, int tipoPagamento) throws ClassNotFoundException, SQLException {
         Connection conn = null;
         Statement st = null;
 
@@ -40,8 +42,8 @@ public class PedidoDAO {
             String dataStr = new SimpleDateFormat("yyyy-MM-dd").format(pedido.getDataRecebido());
             String queryCliente = "INSERT INTO cliente(nome, tipo) VALUES('" + pedido.getCliente().getNome()
                     + "', " + tipoCliente + ");";
-            String queryPedido = "INSERT INTO pedido (cliente, aparelho, dataRecebido, status) VALUES (LAST_INSERT_ID(), '" +
-                    pedido.getAparelho() + "', '" + dataStr + "', " + StatusFactory.RECEBIDO + ");";
+            String queryPedido = "INSERT INTO pedido (cliente, aparelho, dataRecebido, status, tipoPagamento) VALUES (LAST_INSERT_ID(), '" +
+                    pedido.getAparelho() + "', '" + dataStr + "', " + StatusFactory.RECEBIDO + ", " + tipoPagamento + ");";
             st.execute(queryCliente + queryPedido);
         } finally {
             closeResources(conn, st);
@@ -64,7 +66,8 @@ public class PedidoDAO {
             if (rs.next()) {
                 StatusPedido statusPedido = StatusFactory.getStatusPedido(rs.getInt("status"));
                 Cliente cliente = ClienteFactory.getCliente(rs);
-                pedido = new Pedido(rs.getInt("id"), cliente, rs.getString("aparelho"),
+                MetodoPagamento metodoPagamento = MetodoPagamentoFactory.createMetodoPagamento(rs.getInt("tipoPagamento"));
+                pedido = new Pedido(rs.getInt("id"), cliente, metodoPagamento, rs.getString("aparelho"),
                         rs.getDate("dataRecebido"), statusPedido);
             }
         } finally {
@@ -116,7 +119,8 @@ public class PedidoDAO {
             while (rs.next()) {
                 StatusPedido statusPedido = StatusFactory.getStatusPedido(rs.getInt("status"));
                 Cliente cliente = ClienteFactory.getCliente(rs);
-                pedidos.add(new Pedido(rs.getInt("id"), cliente, rs.getString("aparelho"),
+                MetodoPagamento metodoPagamento = MetodoPagamentoFactory.createMetodoPagamento(rs.getInt("tipoPagamento"));
+                pedidos.add(new Pedido(rs.getInt("id"), cliente, metodoPagamento, rs.getString("aparelho"),
                         rs.getDate("dataRecebido"), statusPedido));
             }
         } finally {

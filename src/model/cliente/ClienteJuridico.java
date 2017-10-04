@@ -1,4 +1,4 @@
-package model;
+package model.cliente;
 
 public class ClienteJuridico extends Cliente {
 

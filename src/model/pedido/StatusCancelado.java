@@ -3,50 +3,52 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.pedido;
+
+import model.InvalidStateChangeException;
 
 /**
  * @author fernanda
  */
-public class StatusAvaliar implements StatusPedido {
+public class StatusCancelado implements StatusPedido {
 
     @Override
     public void receber(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Em avaliação\' para \'Recebido\' é inválida!");
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Recebido\' é inválida!");
     }
 
     @Override
     public void avaliar(Pedido pedido) throws InvalidStateChangeException {
-
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Em avaliação\' é inválida!");
     }
 
     @Override
     public void realizarManutencao(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusManutencao());
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Em manutenção\' é inválida!");
     }
 
     @Override
     public void aguardarPeca(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusAguardandoPeca());
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Aguardando peça\' é inválida!");
     }
 
     @Override
     public void cancelar(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusCancelado());
+
     }
 
     @Override
     public void informarSemConserto(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusSemConserto());
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Sem Conserto\' é inválida!");
     }
 
     @Override
     public void informarConserto(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Em avaliação\' para \'Consertado\' é inválida!");
+        throw new InvalidStateChangeException("Mudança de status de \'Cancelado\' para \'Consertado\' é inválida!");
     }
 
     @Override
     public String retornarStatus() {
-        return "Em avaliação";
+        return "Cancelado";
     }
 }

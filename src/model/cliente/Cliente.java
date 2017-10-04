@@ -1,4 +1,6 @@
-package model;
+package model.cliente;
+
+import model.pedido.Pedido;
 
 import java.util.ArrayList;
 import java.util.List;

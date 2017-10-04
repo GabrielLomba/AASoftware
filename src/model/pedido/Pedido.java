@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.pedido;
+
+import model.InvalidStateChangeException;
+import model.cliente.Cliente;
 
 import java.util.Date;
 import java.util.Observable;
@@ -12,21 +15,25 @@ public class Pedido extends Observable {
 
     private int id;
     private Cliente cliente;
+    private MetodoPagamento metodoPagamento;
     private String aparelho;
     private Date dataRecebido;
     private StatusPedido status;
 
-    public Pedido(Cliente cliente, String aparelho) {
+    public Pedido(Cliente cliente, String aparelho, MetodoPagamento metodoPagamento) {
         this.cliente = cliente;
         this.aparelho = aparelho;
+        this.metodoPagamento = metodoPagamento;
         this.dataRecebido = new Date();
         this.status = new StatusRecebido();
         addObserver(cliente);
     }
 
-    public Pedido(int id, Cliente cliente, String aparelho, Date dataRecebido, StatusPedido status) {
+    public Pedido(int id, Cliente cliente, MetodoPagamento metodoPagamento,
+                  String aparelho, Date dataRecebido, StatusPedido status) {
         this.id = id;
         this.cliente = cliente;
+        this.metodoPagamento = metodoPagamento;
         this.aparelho = aparelho;
         this.dataRecebido = dataRecebido;
         this.status = status;
@@ -39,6 +46,10 @@ public class Pedido extends Observable {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public MetodoPagamento getMetodoPagamento() {
+        return metodoPagamento;
     }
 
     public String getAparelho() {

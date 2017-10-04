@@ -3,50 +3,52 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.pedido;
+
+import model.InvalidStateChangeException;
 
 /**
  * @author fernanda
  */
-public class StatusRecebido implements StatusPedido {
+public class StatusSemConserto implements StatusPedido {
 
     @Override
     public void receber(Pedido pedido) throws InvalidStateChangeException {
-
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Recebido\' é inválida!");
     }
 
     @Override
     public void avaliar(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusAvaliar());
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Em avaliação\' é inválida!");
     }
 
     @Override
     public void realizarManutencao(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Recebido\' para \'Em manutenção\' é inválida!");
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Em manutenção\' é inválida!");
     }
 
     @Override
     public void aguardarPeca(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Recebido\' para \'Aguardando peça\' é inválida!");
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Aguardando peça\' é inválida!");
     }
 
     @Override
     public void cancelar(Pedido pedido) throws InvalidStateChangeException {
-        pedido.setStatus(new StatusCancelado());
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Cancelado\' é inválida!");
     }
 
     @Override
     public void informarSemConserto(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Recebido\' para \'Sem Conserto\' é inválida!");
+
     }
 
     @Override
     public void informarConserto(Pedido pedido) throws InvalidStateChangeException {
-        throw new InvalidStateChangeException("Mudança de status de \'Recebido\' para \'Consertado\' é inválida!");
+        throw new InvalidStateChangeException("Mudança de status de \'Sem Conserto\' para \'Consertado\' é inválida!");
     }
 
     @Override
     public String retornarStatus() {
-        return "Recebido";
+        return "Sem Conserto";
     }
 }

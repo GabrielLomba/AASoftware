@@ -7,8 +7,8 @@ package action;
 
 import controller.Action;
 import model.InvalidStateChangeException;
-import model.Pedido;
-import model.StatusFactory;
+import model.pedido.Pedido;
+import model.pedido.StatusFactory;
 import persistencia.PedidoDAO;
 
 import javax.servlet.RequestDispatcher;

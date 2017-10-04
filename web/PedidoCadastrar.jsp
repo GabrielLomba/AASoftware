@@ -1,4 +1,5 @@
-<%@ page import="model.ClienteFactory" %><%--
+<%@ page import="model.cliente.ClienteFactory" %>
+<%@ page import="model.pedido.MetodoPagamentoFactory" %><%--
     Document   : PedidoCadastrar
     Created on : 28/09/2017, 19:51:27
     Author     : fernanda
@@ -20,6 +21,10 @@
             <select id="comboTipo" name="tipoCliente">
                 <option value="<%= ClienteFactory.TIPO_PF %>">Pessoa física</option>
                 <option value="<%= ClienteFactory.TIPO_PJ %>">Pessoa jurídica</option>
+            </select>
+            <select id="comboPagamento" name="tipoPagamento">
+                <option value="<%= MetodoPagamentoFactory.TIPO_A_VISTA %>">A vista</option>
+                <option value="<%= MetodoPagamentoFactory.TIPO_A_PRAZO %>">A prazo</option>
             </select><br/>
             Aparelho:
             <input type="text" name="textAparelho"/><br/>  
@@ -27,6 +32,8 @@
         </form>
 
         ${resultado}
+
+        <a href="PedidoMostrar.jsp">Mostrar Pedidos</a>
     </body>
 </html>
 

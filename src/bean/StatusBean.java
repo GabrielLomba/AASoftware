@@ -1,6 +1,6 @@
 package bean;
 
-import model.StatusPedido;
+import model.pedido.StatusPedido;
 import persistencia.StatusDAO;
 
 import java.sql.SQLException;
