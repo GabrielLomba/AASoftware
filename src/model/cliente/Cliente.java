@@ -10,15 +10,15 @@ import java.util.Observer;
 public abstract class Cliente implements Observer {
 
     private List<String> mensagens = new ArrayList<>();
-    private int codigo;
+    private int id;
     private String nome;
 
-    public Cliente(int codigo, String nome) {
-        this.codigo = codigo;
+    public Cliente(int id, String nome) {
+        this.id = id;
         this.nome = nome;
     }
 
-    public Cliente(String nome){
+    public Cliente(String nome) {
         this.nome = nome;
     }
 
@@ -28,8 +28,8 @@ public abstract class Cliente implements Observer {
 
     public abstract String getTipo();
 
-    public int getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
 
     public String getNome() {

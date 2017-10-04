@@ -2,11 +2,11 @@ package model.cliente;
 
 public class ClienteFisico extends Cliente {
 
-    public ClienteFisico(int codigo, String nome) {
+    ClienteFisico(int codigo, String nome) {
         super(codigo, nome);
     }
 
-    public ClienteFisico(String nome) {
+    ClienteFisico(String nome) {
         super(nome);
     }
 
